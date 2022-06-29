@@ -1,37 +1,39 @@
 <template>
-  <div>
-    <p>商品总数：{{ count }}</p>
-    <button v-on:click="count++">+1</button>
-    <button v-on:click="addFn">+1</button>
-    <button v-on:click="addFn1(5)">+5</button>
-    <!-- v-on:可写为@ -->
-    <button @click="subFn">-1</button>
+  <div class="container">
+    <div class="imglist">
+      <h3>图片列表区</h3>
+      <img src="./assets/01.jpg" alt="" />
+      <img src="./assets/02.jpg" alt="" />
+      <img src="./assets/03.jpg" alt="" />
+    </div>
+
+    <div class="show">
+      <h3>图片预览区</h3>
+      <img alt="" style="width: 600px; height: auto" />
+    </div>
   </div>
 </template>
 
 <script>
-export default {
-  data() {
-    return {
-      count: 0,
-    };
-  },
-  methods: {
-    addFn() {
-      this.count++;
-    },
-    addFn1(val) {
-      this.count += val;
-    },
-    subFn() {
-      this.count--;
-    },
-  },
-};
-//  1. 绑定事件
-//   语法: v-on:事件名="少量代码"
-//   语法: v-on:事件名="methods里函数名"
-//   语法: v-on:事件名="methods里函数名(值)"
-//   语法: @事件名="methods里函数名"
+export default {};
+//  需求如下：
+// 1. 鼠标经过图片列表区的哪张图片，右侧的预览区 就是展示对应的图片
+// 2. 鼠标点击图片列表区的哪张图片， alert出图片的具体信息
 </script>
-<style></style>
+
+<style scoped>
+.container {
+  display: flex;
+}
+.imglist {
+  border: 2px solid red;
+}
+.imglist img {
+  width: 200px;
+  height: auto;
+}
+.show {
+  border: 2px solid red;
+  margin-right: 20px;
+}
+</style>
