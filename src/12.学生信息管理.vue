@@ -2,26 +2,31 @@
   <div id="app">
     <div>
       <span>姓名:</span>
-      <input type="text" v-model="userName" />
+      <input type="text" v-model="myname" />
     </div>
     <br />
 
     <div>
       <span>年龄:</span>
-      <input type="number" v-model="userAge" />
+      <input type="number" v-model="myage" />
     </div>
     <br />
 
     <div>
       <span>性别:</span>
-      <select v-model="userSex">
+      <select v-model="mysex">
         <option value="男">男</option>
         <option value="女">女</option>
       </select>
     </div>
     <br />
 
-    <div><button @click="add">添加</button><button>修改</button></div>
+    <div>
+      <!-- 1、添加 -->
+      <button @click="add" v-if="flag">添加/修改</button>
+      <!-- 4、修改
+      <button @click="reviseFn">修改</button> -->
+    </div>
     <br />
 
     <div>
@@ -33,14 +38,16 @@
           <th>性别</th>
           <th>操作</th>
         </tr>
-        <tr v-for="(item, index) in arr" :key="index">
+        <tr v-for="item in list" :key="item.id">
           <td>{{ item.id }}</td>
           <td>{{ item.name }}</td>
           <td>{{ item.age }}</td>
           <td>{{ item.sex }}</td>
           <td>
-            <button>删除</button>
-            <button>编辑</button>
+            <!-- 2、删除 -->
+            <button @click="delFn(item.id)">删除</button>
+            <!-- 3、编辑 -->
+            <button @click="editFn(item.id)">编辑</button>
           </td>
         </tr>
       </table>
@@ -51,26 +58,64 @@
 export default {
   data() {
     return {
-      arr: [
+      list: [
         { id: 1, name: '张三', age: 18, sex: '男' },
-        { id: 1, name: '张三', age: 18, sex: '男' },
+        { id: 2, name: '张三', age: 18, sex: '男' },
       ],
-      userName: '',
-      userAge: '',
-      userSex: '男',
+      myname: '',
+      myage: '',
+      mysex: '男',
+      flag: true,
+      reindex: '',
     };
   },
   methods: {
+    // 1、添加功能
+
     add() {
-      // if (this.userName == '' || this.userAge == '')
-      //   return alert('请您重新输入信息');
-      this.arr = this.arr.push({
-        id: this.arr.length + 1,
-        name: userName,
-        age: userAge,
-        sex: userSex,
+      if (this.flag) {
+        const id = this.list[this.list.length - 1]
+          ? this.list[this.list.length - 1].id + 1
+          : 1;
+        if (this.myname == '' || this.myage == '' || this.mysex == '')
+          return alert('请您重新输入信息');
+
+        this.list.push({
+          id,
+          name: this.myname,
+          age: this.myage,
+          sex: this.mysex,
+        });
+        //添加后清空
+        this.myname = '';
+        this.myage = '';
+        this.mysex = '';
+      } else {
+        (this.list[this.reindex].name = this.myname),
+          (this.list[this.reindex].age = this.myage),
+          (this.list[this.reindex].sex = this.mysex),
+          (this.flag = false);
+      }
+    },
+    // 2、删除功能
+    delFn(id) {
+      let index = this.list.findIndex((ele) => {
+        return id == ele.id;
       });
-      // console.log(this.userName);
+      this.list.splice(index, 1);
+    },
+    // 3、绑定编辑按，编辑功能，
+
+    editFn(ind) {
+      // 该条数据的获取索引
+      let index = this.list.findIndex((ele) => {
+        return ind == ele.id;
+      });
+      this.myname = this.list[index].name;
+      this.myage = this.list[index].age;
+      this.mysex = this.list[index].sex;
+      flag = false;
+      this.reindex = ind;
     },
   },
 };
