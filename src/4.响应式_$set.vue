@@ -23,8 +23,8 @@ export default {
   },
   methods: {
     change() {
-      // this.obj.a = 10;
-      // console.log(this.obj);
+      this.obj.a = 10;
+      console.log(this.obj);
       // 解决方法1
       // this.obj = {
       //   b: 10,
@@ -40,6 +40,7 @@ export default {
       console.log('===', this.obj);
     },
     change1() {
+      // this.obj1.a = 10;
       this.obj1 = {
         a: 10,
       };

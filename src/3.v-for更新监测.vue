@@ -32,6 +32,11 @@ export default {
     change() {
       this.arr[0] = 100; //改变数组，不更新。
       // 解决方案2：
+      // 解决-this.$set()
+      // 参数1: 更新目标结构
+      // 参数2: 更新位置
+      // 参数3: 更新值
+      // 更多细节： https://cn.vuejs.org/v2/guide/list.html#%E6%95%B0%E7%BB%84%E6%9B%B4%E6%96%B0%E6%A3%80%E6%B5%8B
       this.$set(this.arr, 0, 100);
     },
     splice() {
