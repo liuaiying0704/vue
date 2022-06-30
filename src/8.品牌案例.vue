@@ -105,9 +105,9 @@ export default {
       // if后面的就不执行
 
       //2 删除完了，报错。
-      // const id = this.list[this.list.length - 1]
-      //   ? this.list[this.list.length - 1].id + 1
-      //   : 100;
+      const id = this.list[this.list.length - 1]
+        ? this.list[this.list.length - 1].id + 1
+        : 100;
 
       if (this.name == '' || this.price == 0) return alert('please enter');
       this.list.push({
