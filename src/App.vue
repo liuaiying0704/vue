@@ -1,18 +1,15 @@
 <template>
   <div>
     <ul>
-      <!-- 需求:将数组arr的内容渲染到ul中 
-      v-for 循环数据 每循环一次 生成对应的dom元素
-      key: 唯一值 类型string/number 提高性能
-      -->
-
-      <!-- item 数组里边的每一个元素 -->
-      <li v-for="item in arr" :key="item">{{ item }}</li>
-      <!-- item 数组里边的每一个元素,
-      index 索引号 -->
-      <li v-for="(item, index) in arr" :key="index">{{ item }}</li>
-      <!-- 下面的li里面的item别的地方拿不到 -->
-      <li v-for="item in newarr" :key="item">{{ item }}</li>
+      <li
+        v-for="(item, index) in navs"
+        :key="index"
+        :class="{ active: index === current }"
+        @click="toggle(index)"
+      >
+        {{ item }}
+      </li>
+      <!-- <li>高中起点</li> -->
     </ul>
   </div>
 </template>
@@ -21,11 +18,37 @@
 export default {
   data() {
     return {
-      arr: [1, 2, 3, 4, 5],
-      newarr: [15, 6, 7, 8],
+      current: 0,
+      navs: ['大学起点', '高中起点', '初中起点', '小学起点'],
     };
+  },
+
+  methods: {
+    toggle(ind) {
+      this.current = ind;
+    },
   },
 };
 </script>
-
-<style></style>
+<style>
+ul {
+  list-style: none;
+  border-radius: 10px;
+  width: 400px;
+  overflow: hidden;
+  padding: 0;
+}
+ul li {
+  float: left;
+  width: 100px;
+  height: 40px;
+  background-color: #ccc;
+  color: #fff;
+  text-align: center;
+  line-height: 40px;
+  cursor: pointer;
+}
+li.active {
+  background-color: blue;
+}
+</style>
