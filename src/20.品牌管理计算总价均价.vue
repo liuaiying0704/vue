@@ -106,7 +106,9 @@ export default {
   },
   computed: {
     allPrice() {
-      return this.list.reduce((sum, next) => (sum += next.price), 0).toFixed(2);
+      return this.list
+        .reduce((sum, next) => (sum += +next.price), 0)
+        .toFixed(2);
     },
     averagePrice() {
       return (this.allPrice / this.list.length).toFixed(2);
