@@ -26,22 +26,21 @@
 
             <!-- 如果价格超过100，就有red这个类 -->
             <td :class="{ red: item.price > 100 }">{{ item.price }}</td>
-            <td>{{ item.time }}</td>
+            <td>{{ item.time | formatDate }}</td>
             <td><a href="#" @click.prevent="delFn(item.id)">删除</a></td>
           </tr>
-          <!-- <tr style="background-color: #EEE">
-              <td>统计:</td>
-              <td colspan="2">总价钱为: 0</td>
-              <td colspan="2">平均价: 0</td>
-          </tr> -->
+          <tr style="background-color: #eee">
+            <td>统计:</td>
+            <td colspan="2">总价钱为: {{ allPrice }}</td>
+            <td colspan="2">平均价: {{ averagePrice }}</td>
+          </tr>
         </tbody>
-        <!-- 
-        <tfoot >
+
+        <!-- <tfoot>
           <tr>
             <td colspan="5" style="text-align: center">暂无数据</td>
           </tr>
-        </tfoot>
-            -->
+        </tfoot> -->
       </table>
 
       <!-- 添加资产 -->
@@ -84,8 +83,7 @@
 // 第二：
 // 1.收集表单数据，添加资处
 // 2.给添加资产绑定点击事件
-//
-// 目标: 处理时间
+//// 目标: 处理时间
 // 1. 下载moment模块
 import moment from 'moment';
 export default {
@@ -100,6 +98,19 @@ export default {
       name: '',
       price: 0,
     };
+  },
+  filters: {
+    formatDate(val) {
+      return moment(val).format('YYYY-MM-DD');
+    },
+  },
+  computed: {
+    allPrice() {
+      return this.list.reduce((sum, next) => (sum += next.price), 0).toFixed(2);
+    },
+    averagePrice() {
+      return (this.allPrice / this.list.length).toFixed(2);
+    },
   },
   methods: {
     addFn() {
