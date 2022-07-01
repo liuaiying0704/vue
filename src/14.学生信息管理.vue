@@ -88,11 +88,9 @@ export default {
         this.myage = '';
         this.mysex = '';
       } else {
-        this.list[this.reindex].name = this.myname;
-        this.list[this.reindex].age = this.myage;
-        this.myname = '';
-        this.myage = '';
-        this.mysex = '男';
+        this.$set(this.list[this.reindex], 'name', this.myname);
+        this.$set(this.list[this.reindex], 'age', this.myage);
+
         this.flag = true;
       }
     },

@@ -23,7 +23,7 @@
 
     <div>
       <!-- 1、添加 -->
-      <button @click="add" v-if="flag">添加/修改</button>
+      <button @click="add">添加/修改</button>
       <!-- 4、修改
       <button @click="reviseFn">修改</button> -->
     </div>
@@ -58,10 +58,7 @@
 export default {
   data() {
     return {
-      list: [
-        { id: 1, name: '张三', age: 18, sex: '男' },
-        { id: 2, name: '张三', age: 18, sex: '男' },
-      ],
+      list: [{ id: 1, name: '张三', age: 18, sex: '男' }],
       myname: '',
       myage: '',
       mysex: '男',
@@ -91,10 +88,12 @@ export default {
         this.myage = '';
         this.mysex = '';
       } else {
-        (this.list[this.reindex].name = this.myname),
-          (this.list[this.reindex].age = this.myage),
-          (this.list[this.reindex].sex = this.mysex),
-          (this.flag = false);
+        this.list[this.reindex].name = this.myname;
+        this.list[this.reindex].age = this.myage;
+        this.myname = '';
+        this.myage = '';
+        this.mysex = '男';
+        this.flag = true;
       }
     },
     // 2、删除功能
@@ -114,8 +113,8 @@ export default {
       this.myname = this.list[index].name;
       this.myage = this.list[index].age;
       this.mysex = this.list[index].sex;
-      flag = false;
-      this.reindex = ind;
+      this.flag = false;
+      this.reindex = index;
     },
   },
 };
