@@ -2,28 +2,28 @@
   <div id="app">
     <div>
       <span>姓名:</span>
-      <input type="text" v-model="myname" />
+      <input type="text" v-model.trim="name" placeholder="请输入姓名" />
     </div>
     <br />
 
     <div>
       <span>年龄:</span>
-      <input type="number" v-model="myage" />
+      <input type="number" v-model.number="age" placeholder="请输入年龄" />
     </div>
     <br />
 
     <div>
       <span>性别:</span>
-      <select v-model="mysex">
-        <option value="男">男</option>
-        <option value="女">女</option>
+      <select v-model="sex">
+        <option :value="1">男</option>
+        <option :value="0">女</option>
       </select>
     </div>
     <br />
 
     <div>
       <!-- 1、添加 -->
-      <button @click="add">添加/修改</button>
+      <button @click="addFn">{{ isEdit ? '修改' : '添加' }}</button>
       <!-- 4、修改
       <button @click="reviseFn">修改</button> -->
     </div>
@@ -42,12 +42,12 @@
           <td>{{ item.id }}</td>
           <td>{{ item.name }}</td>
           <td>{{ item.age }}</td>
-          <td>{{ item.sex }}</td>
+          <td>{{ { 1: '男', 0: '女' }[item.sex] }}</td>
           <td>
             <!-- 2、删除 -->
-            <button @click="delFn(item.id)">删除</button>
+            <button>删除</button>
             <!-- 3、编辑 -->
-            <button @click="editFn(item.id)">编辑</button>
+            <button @click="editFn(item)">编辑</button>
           </td>
         </tr>
       </table>
@@ -58,72 +58,86 @@
 export default {
   data() {
     return {
-      list: [{ id: 1, name: '张三', age: 18, sex: '男' }],
-      myname: '',
-      myage: '',
-      mysex: '男',
-      flag: true,
-      reindex: '',
+      list: [{ id: 1, name: '张三', age: 18, sex: 1 }],
+      name: '',
+      age: '',
+      sex: 1,
+      currentId: '',
+      isEdit: false, // false 代表没有处于编辑  true  代表处于编辑
     };
   },
   methods: {
-    // 1、添加功能
-
-    add() {
-      if (this.flag) {
-        const id = this.list[this.list.length - 1]
-          ? this.list[this.list.length - 1].id + 1
-          : 1;
-        if (this.myname == '' || this.myage == '' || this.mysex == '')
-          return alert('请您重新输入信息');
-
-        this.list.push({
-          id,
-          name: this.myname,
-          age: this.myage,
-          sex: this.mysex,
+    addFn() {
+      if (this.isEdit) {
+        // this.isEdit  true 处于编辑状态
+        // 改完之后的数据保存进去
+        // 当前这个数据的id
+        const index = this.list.findIndex((ele) => {
+          ele.id == this.currentId;
         });
-        //添加后清空
-        this.myname = '';
-        this.myage = '';
-        this.mysex = '';
-      } else {
-        this.list[this.reindex].name = this.myname;
-        this.list[this.reindex].age = this.myage;
-        this.myname = '';
-        this.myage = '';
-        this.mysex = '男';
-        this.flag = true;
+        this.list[index].name = this.name;
+        this.list[index].age = this.age;
+        this.list[index].sex = this.sex;
+        //编辑完，再次便会添加
+        this.editFn = false;
+        //清除编辑的那个id
+        this.currentId = '';
+        //清除输入框
+        this.cleanFn();
+        alert('修改完成');
+        return;
       }
-    },
-    // 2、删除功能
-    delFn(id) {
-      let index = this.list.findIndex((ele) => {
-        return id == ele.id;
+      // 1、添加功能
+      if (this.name == '' || this.age == '') {
+        return alert('Please enter a name,age');
+      }
+      let id = this.list[this.list.lenght - 1]
+        ? this.list[this.list.lenght - 1].id + 1
+        : 100;
+      this.list.push({
+        id,
+        name: this.name,
+        age: this.age,
+        sex: this.sex,
       });
-      this.list.splice(index, 1);
+      // 清空
+      this.name = '';
+      this.age = '';
+      this.sex = 1;
     },
-    // 3、绑定编辑按，编辑功能，
 
-    editFn(ind) {
-      // 该条数据的获取索引
-      let index = this.list.findIndex((ele) => {
-        return ind == ele.id;
-      });
-      this.myname = this.list[index].name;
-      this.myage = this.list[index].age;
-      this.mysex = this.list[index].sex;
-      this.flag = false;
-      this.reindex = index;
+    // 2、编辑功能,把item传入实参
+    editFn(data) {
+      // 1、改变变量
+      this.isEdit = true;
+      // 2、显示点击的那条数据
+      this.name = data.name;
+      this.age = data.age;
+      this.sex = data.sex;
+      // 3、保存编辑的id
+      this.currentId = data.id;
+      // 4、清空内容
+    },
+
+    //3、清空
+    cleanFn() {
+      this.name = '';
+      this.age = '';
+      this.sex = 0;
     },
   },
 };
 </script>
 
 <style>
-th,
-td {
-  border: 1px solid rgb(28, 25, 25);
+thead,
+tbody,
+tfoot,
+tr,
+td,
+th {
+  border-width: 1px;
   width: 150px;
+  text-align: center;
 }
 </style>

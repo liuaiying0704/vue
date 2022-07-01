@@ -74,7 +74,7 @@ export default {
         const id = this.list[this.list.length - 1]
           ? this.list[this.list.length - 1].id + 1
           : 1;
-        if (this.myname == '' || this.myage == '' || this.mysex == '')
+        if (this.myname == '' || this.myage == '')
           return alert('请您重新输入信息');
 
         this.list.push({
