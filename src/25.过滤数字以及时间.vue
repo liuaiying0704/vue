@@ -5,8 +5,8 @@
     <p>{{ ss | nn1 }}</p>
 
     <p>过滤器时间</p>
-    <p>{{ num | number }}</p>
-    <p>{{ num | number1 }}</p>
+    <p>{{ num | number('YYYY-MM-DD') }}</p>
+    <p>{{ num | number('YYYY/MM/DD') }}</p>
   </div>
 </template>
 
@@ -33,11 +33,11 @@ export default {
     nn1(val) {
       return val / 1000 + '千';
     },
-    number(val) {
-      return moment(val).format('YYYY-MM-DD'); // 1318874398
+    number(val, a) {
+      return moment(val).format(a); // 1318874398
     },
-    number1(val) {
-      return moment(val).format('YYYY/MM/DD'); // 1318874398
+    number1(val, b) {
+      return moment(val).format(b); // 1318874398
     },
   },
 };
