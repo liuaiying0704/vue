@@ -73,13 +73,13 @@ export default {
         // 改完之后的数据保存进去
         // 当前这个数据的id
         const index = this.list.findIndex((ele) => {
-          ele.id == this.currentId;
+          return ele.id == this.currentId;
         });
         this.list[index].name = this.name;
         this.list[index].age = this.age;
         this.list[index].sex = this.sex;
         //编辑完，再次便会添加
-        this.editFn = false;
+        this.isEdit = false;
         //清除编辑的那个id
         this.currentId = '';
         //清除输入框
@@ -100,10 +100,12 @@ export default {
         age: this.age,
         sex: this.sex,
       });
+
       // 清空
-      this.name = '';
-      this.age = '';
-      this.sex = 1;
+      // this.name = '';
+      // this.age = '';
+      // this.sex = 1;
+      this.cleanFn();
     },
 
     // 2、编辑功能,把item传入实参
