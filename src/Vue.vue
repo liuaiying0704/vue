@@ -1,29 +1,11 @@
 <template>
   <div>
-    <p>请选择你要购买的书籍</p>
     <ul>
-      <li v-for="(item, index) in arr" :key="index">
-        {{ item.name }}
-        <button @click="buy(item.name)">买书</button>
+      <li v-for="item in arr" :key="item">
+        <input type="checkbox" v-model="total" :value="item" />{{ item }}
       </li>
     </ul>
-    <table border="1" width="500" cellspacing="0">
-      <tr>
-        <th>序号</th>
-        <th>书名</th>
-        <th>单价</th>
-        <th>数量</th>
-        <th>合计</th>
-      </tr>
-      <tr v-for="(item, index) in arr" :key="index">
-        <th>{{ index + 1 }}</th>
-        <th>{{ item.name }}</th>
-        <th>{{ item.price }}</th>
-        <th>{{ item.count }}</th>
-        <th>{{ item.price * item.count }}</th>
-      </tr>
-    </table>
-    <p>总价格为:{{ allPrice }}</p>
+    求和：{{ getTotal }}
   </div>
 </template>
 
@@ -31,40 +13,18 @@
 export default {
   data() {
     return {
-      arr: [
-        {
-          name: '水浒传',
-          price: 107,
-          count: 0,
-        },
-        {
-          name: '西游记',
-          price: 192,
-          count: 0,
-        },
-        {
-          name: '三国演义',
-          price: 219,
-          count: 0,
-        },
-        {
-          name: '红楼梦',
-          price: 178,
-          count: 0,
-        },
-      ],
+      arr: [9, 15, 19, 25, 29, 31, 48, 57, 62, 79, 87],
+      total: [],
     };
   },
-  methods: {
-    buy(name) {
-      let index = this.arr.findIndex((ele) => ele.name == name);
-      this.arr[index].count++;
-    },
-  },
+
+  //
   computed: {
-    allPrice() {
-      return this.arr.reduce((sum, ele) => (sum += ele.price * ele.count), 0);
+    getTotal() {
+      return this.total.reduce((sum, next) => (sum += next), 0);
     },
   },
 };
 </script>
+
+<style></style>
