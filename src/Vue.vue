@@ -2,7 +2,13 @@
   <div class="wrap">
     <div class="nav_left" id="navLeft">
       <div class="nav_content">
-        <span></span>
+        <span
+          v-for="(item, index) in arr"
+          :key="index"
+          @click="btn(index)"
+          :class="{ active: index == current }"
+          >{{ item.first_name }}</span
+        >
       </div>
     </div>
     <div class="down">
@@ -104,7 +110,11 @@ export default {
       ],
     };
   },
-  methods: {},
+  methods: {
+    btn(ind) {
+      this.current = ind;
+    },
+  },
 };
 </script>
 
