@@ -1,7 +1,11 @@
 <template>
   <div>
-    <div>{{ msg | toUp }}</div>
-    <div>{{ msg | toLosssaare }}</div>
+    <span>姓</span>
+    <input type="text" v-model="firstName" /><br />
+    <span>名</span>
+    <input type="text" v-model="lastName" /><br />
+    <span>姓名</span>
+    <input type="text" v-model="fullName" /><br />
   </div>
 </template>
 
@@ -9,15 +13,20 @@
 export default {
   data() {
     return {
-      msg: 'Hello, World',
+      firstName: '',
+      lastName: '',
     };
   },
-  filters: {
-    toUp(val) {
-      return val.toUpperCase();
-    },
-    toLo(val) {
-      return val.toLowerCase();
+  computed: {
+    fullName: {
+      set(val) {
+        const arr = val.split('.');
+        this.firstName = arr[0] || '';
+        this.lastName = arr[1] || '';
+      },
+      get() {
+        return this.firstName ? this.firstName + '.' + this.lastName : '';
+      },
     },
   },
 };
