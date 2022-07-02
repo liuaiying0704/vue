@@ -1,11 +1,14 @@
 <template>
   <div>
-    <span>姓</span>
-    <input type="text" v-model="firstName" /><br />
-    <span>名</span>
-    <input type="text" v-model="lastName" /><br />
-    <span>姓名</span>
-    <input type="text" v-model="fullName" /><br />
+    <span>全选:</span>
+    <input type="checkbox" v-model="full" />
+    <button>反选</button>
+    <ul>
+      <li v-for="(item, index) in arr" :key="index">
+        <input type="checkbox" v-model="item.c" />
+        <span>{{ item.name }}</span>
+      </li>
+    </ul>
   </div>
 </template>
 
@@ -13,19 +16,33 @@
 export default {
   data() {
     return {
-      firstName: '',
-      lastName: '',
+      arr: [
+        {
+          name: '猪八戒',
+          c: false,
+        },
+        {
+          name: '孙悟空',
+          c: false,
+        },
+        {
+          name: '唐僧',
+          c: false,
+        },
+        {
+          name: '白龙马',
+          c: false,
+        },
+      ],
     };
   },
   computed: {
-    fullName: {
+    full: {
       set(val) {
-        const arr = val.split('.');
-        this.firstName = arr[0] || '';
-        this.lastName = arr[1] || '';
+        this.arr.forEach((ele) => (ele.c = val));
       },
       get() {
-        return this.firstName ? this.firstName + '.' + this.lastName : '';
+        return this.arr.every((ele) => ele.c);
       },
     },
   },
