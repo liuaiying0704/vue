@@ -1,13 +1,9 @@
 <template>
   <div>
-    <!-- 
-      动态绑定css 语法：v-bind:css='{类名：bool/表达式}' 
-      动态绑定style 语法：v-bind:style='对象' 
-    v-bind:style="{ color: 'red', fontSize: '100px' }"
-    -->
-
-    <p :style="{ color: 'red' }">style</p>
-    <p :style="{ color: colorStr }">style</p>
+    <ul>
+      <li v-for="item in myArr" :key="item">{{ item }}</li>
+    </ul>
+    <button @click="btn">走一走</button>
   </div>
 </template>
 
@@ -15,8 +11,15 @@
 export default {
   data() {
     return {
-      colorStr: 'green',
+      myArr: ['帅哥', '美女', '程序员', 'A', 'B', 'C', 'D'],
     };
+  },
+  methods: {
+    btn() {
+      this.myArr.push(this.myArr[0]);
+
+      this.myArr.shift();
+    },
   },
 };
 </script>
