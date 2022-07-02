@@ -1,156 +1,145 @@
 <template>
   <div id="app">
-    <div class="container">
-      <!-- 顶部框模块 -->
-      <div class="form-group">
-        <div class="input-group">
-          <h4>品牌管理</h4>
-        </div>
-      </div>
+    <div>
+      <span>姓名:</span>
+      <input type="text" v-model.trim="name" placeholder="请输入姓名" />
+    </div>
+    <br />
 
-      <!-- 数据表格 -->
-      <table class="table table-bordered table-hover mt-2">
-        <thead>
-          <tr>
-            <th>编号</th>
-            <th>资产名称</th>
-            <th>价格</th>
-            <th>创建时间</th>
-            <th>操作</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="item in list" :key="item.id">
-            <td>{{ item.id }}</td>
-            <td>{{ item.name }}</td>
+    <div>
+      <span>年龄:</span>
+      <input type="number" v-model.number="age" placeholder="请输入年龄" />
+    </div>
+    <br />
 
-            <!-- 如果价格超过100，就有red这个类 -->
-            <td :class="{ red: item.price > 100 }">{{ item.price }}</td>
-            <td>{{ item.time | formatDate }}</td>
-            <td><a href="#" @click.prevent="delFn(item.id)">删除</a></td>
-          </tr>
-          <tr style="background-color: #eee" v-if="list.length !== 0">
-            <td>统计:</td>
-            <td colspan="2">总价钱为:{{ allPrice }}</td>
-            <td colspan="2">平均价:{{ averagePrice }}</td>
-          </tr>
-        </tbody>
+    <div>
+      <span>性别:</span>
+      <select v-model="sex">
+        <option :value="1">男</option>
+        <option :value="0">女</option>
+      </select>
+    </div>
+    <br />
 
-        <tfoot>
-          <tr v-if="list.length == 0">
-            <td colspan="5" style="text-align: center">暂无数据</td>
-          </tr>
-        </tfoot>
+    <div>
+      <!-- 1、添加 -->
+      <button @click="addFn">{{ isEdit ? '修改' : '添加' }}</button>
+      <!-- 4、修改
+      <button @click="reviseFn">修改</button> -->
+    </div>
+    <br />
+
+    <div>
+      <table border="1" cellpadding="10" cellspacing="0">
+        <tr>
+          <th>序号</th>
+          <th>姓名</th>
+          <th>年龄</th>
+          <th>性别</th>
+          <th>操作</th>
+        </tr>
+        <tr v-for="item in list" :key="item.id">
+          <td>{{ item.id }}</td>
+          <td>{{ item.name }}</td>
+          <td>{{ item.age }}</td>
+          <td>{{ { 1: '男', 0: '女' }[item.sex] }}</td>
+          <td>
+            <!-- 2、删除 -->
+            <button>删除</button>
+            <!-- 3、编辑 -->
+            <button @click="editFn(item)">编辑</button>
+          </td>
+        </tr>
       </table>
-
-      <!-- 添加资产 -->
-      <form class="form-inline" style="display: flex">
-        <div class="form-group">
-          <div class="input-group">
-            <input
-              type="text"
-              class="form-control"
-              placeholder="资产名称"
-              v-model.trim="name"
-            />
-          </div>
-        </div>
-        &nbsp;&nbsp;&nbsp;&nbsp;
-        <div class="form-group">
-          <div class="input-group">
-            <input
-              type="text"
-              class="form-control"
-              placeholder="价格"
-              v-model.number="price"
-            />
-          </div>
-        </div>
-        &nbsp;&nbsp;&nbsp;&nbsp;
-        <!-- 阻止表单提交 -->
-        <button class="btn btn-primary" @click.prevent="add">添加资产</button>
-      </form>
     </div>
   </div>
 </template>
-
 <script>
-// 1. 明确需求
-// 2. 标签+样式+默认数据
-// 3. 下载bootstrap, main.js引入bootstrap.css
-// 4. 把list数组 - 铺设表格
-// 5. 修改价格颜色
-// 第二：
-// 1.收集表单数据，添加资处
-// 2.给添加资产绑定点击事件
-//// 目标: 处理时间
-// 1. 下载moment模块
-
-// 删除功能
-// 添加功能
-// 总价均价computed
-// 过滤器时间
-import moment from 'moment';
 export default {
   data() {
     return {
-      list: [
-        { id: 100, name: '', price: 199, time: new Date('2010-08-12') },
-        { id: 101, name: '裤子', price: 34, time: new Date('2013-09-01') },
-        { id: 102, name: '鞋', price: 25.4, time: new Date('2018-11-22') },
-        { id: 103, name: '头发', price: 19900, time: new Date('2020-12-12') },
-      ],
+      list: [{ id: 1, name: '张三', age: 18, sex: 1 }],
       name: '',
-      price: '',
+      age: '',
+      sex: 1,
+      currentId: '',
+      isEdit: false, // false 代表没有处于编辑  true  代表处于编辑
     };
   },
   methods: {
-    // 删除案例
-    delFn(id) {
-      let index = this.list.findIndex((ele) => ele.id == id);
-      this.list.splice(index, 1);
-    },
-    // 添加
-    add() {
-      const id = this.list[this.list.length - 1]
-        ? this.list[this.list.length - 1].id + 1
+    addFn() {
+      if (this.isEdit) {
+        // this.isEdit  true 处于编辑状态
+        // 改完之后的数据保存进去
+        // 当前这个数据的id
+        const index = this.list.findIndex((ele) => {
+          return ele.id == this.currentId;
+        });
+        this.list[index].name = this.name;
+        this.list[index].age = this.age;
+        this.list[index].sex = this.sex;
+        //编辑完，再次便会添加
+        this.isEdit = false;
+        //清除编辑的那个id
+        this.currentId = '';
+        //清除输入框
+        this.cleanFn();
+        alert('修改完成');
+        return;
+      }
+      // 1、添加功能
+      if (this.name == '' || this.age == '') {
+        return alert('Please enter a name,age');
+      }
+      let id = this.list[this.list.lenght - 1]
+        ? this.list[this.list.lenght - 1].id + 1
         : 100;
-
-      if (this.name == '' || this.price == 0) return alert('please enter');
       this.list.push({
-        // 解决删除完报错的问题
-        // id: this.list[this.list.length - 1].id + 1,
-        // id:id,
         id,
         name: this.name,
-        price: this.price,
-        time: new Date(),
+        age: this.age,
+        sex: this.sex,
       });
-      // 添加后清空
+
+      // 清空
+      // this.name = '';
+      // this.age = '';
+      // this.sex = 1;
+      this.cleanFn();
+    },
+
+    // 2、编辑功能,把item传入实参
+    editFn(data) {
+      // 1、改变变量
+      this.isEdit = true;
+      // 2、显示点击的那条数据
+      this.name = data.name;
+      this.age = data.age;
+      this.sex = data.sex;
+      // 3、保存编辑的id
+      this.currentId = data.id;
+      // 4、清空内容
+    },
+
+    //3、清空
+    cleanFn() {
       this.name = '';
-      this.price = 0;
-    },
-  },
-  computed: {
-    allPrice() {
-      return this.list
-        .reduce((sum, next) => (sum += +next.price), 0)
-        .toFixed(2);
-    },
-    averagePrice() {
-      return (this.allPrice / this.list.length).toFixed(2);
-    },
-  },
-  filters: {
-    formatDate(val) {
-      return moment(val).format('YYYY-MM-DD');
+      this.age = '';
+      this.sex = 0;
     },
   },
 };
 </script>
 
 <style>
-.red {
-  color: red;
+thead,
+tbody,
+tfoot,
+tr,
+td,
+th {
+  border-width: 1px;
+  width: 150px;
+  text-align: center;
 }
 </style>

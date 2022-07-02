@@ -29,18 +29,18 @@
             <td>{{ item.time | formatDate }}</td>
             <td><a href="#" @click.prevent="delFn(item.id)">删除</a></td>
           </tr>
-          <tr style="background-color: #eee">
+          <tr style="background-color: #eee" v-if="list.length !== 0">
             <td>统计:</td>
-            <td colspan="2">总价钱为: {{ allPrice }}</td>
-            <td colspan="2">平均价: {{ averagePrice }}</td>
+            <td colspan="2">总价钱为:{{ allPrice }}</td>
+            <td colspan="2">平均价:{{ averagePrice }}</td>
           </tr>
         </tbody>
 
-        <!-- <tfoot>
-          <tr>
+        <tfoot>
+          <tr v-if="list.length == 0">
             <td colspan="5" style="text-align: center">暂无数据</td>
           </tr>
-        </tfoot> -->
+        </tfoot>
       </table>
 
       <!-- 添加资产 -->
@@ -128,9 +128,9 @@ export default {
       if (this.name == '' || this.price == 0) return alert('please enter');
       this.list.push({
         // 解决删除完报错的问题
-        id: this.list[this.list.length - 1].id + 1,
+        // id: this.list[this.list.length - 1].id + 1,
         // id:id,
-        // id,
+        id,
         name: this.name,
         price: this.price,
         time: new Date(),
