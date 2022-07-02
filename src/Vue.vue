@@ -1,16 +1,13 @@
 <template>
   <div>
-    <ul>
-      <li
-        v-for="(item, index) in navs"
-        :key="index"
-        @click="toggle(index)"
-        :class="{ active: index == current }"
-      >
-        {{ item }}
-      </li>
-      <!-- <li>高中起点</li> -->
-    </ul>
+    <!-- 
+      动态绑定css 语法：v-bind:css='{类名：bool/表达式}' 
+      动态绑定style 语法：v-bind:style='对象' 
+    v-bind:style="{ color: 'red', fontSize: '100px' }"
+    -->
+
+    <p :style="{ color: 'red' }">style</p>
+    <p :style="{ color: colorStr }">style</p>
   </div>
 </template>
 
@@ -18,38 +15,10 @@
 export default {
   data() {
     return {
-      current: 0,
-      navs: ['大学起点', '高中起点', '初中起点', '小学起点'],
+      colorStr: 'green',
     };
-  },
-
-  methods: {
-    toggle(ind) {
-      // 保存点击的索引
-      this.current = ind;
-    },
   },
 };
 </script>
-<style>
-ul {
-  list-style: none;
-  border-radius: 10px;
-  width: 500px;
-  overflow: hidden;
-  padding: 0;
-}
-ul li {
-  float: left;
-  width: 100px;
-  height: 40px;
-  background-color: #ccc;
-  color: #fff;
-  text-align: center;
-  line-height: 40px;
-  cursor: pointer;
-}
-li.active {
-  background-color: blue;
-}
-</style>
+
+<style></style>
