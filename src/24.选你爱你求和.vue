@@ -15,6 +15,7 @@ export default {
       checkNumber: [],
     };
   },
+  // 这个案例拓展:购物车等对选中的数据进行相关计算
   computed: {
     getTotal() {
       return this.checkNumber.reduce((sum, next) => (sum += next), 0);
