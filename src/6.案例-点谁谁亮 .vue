@@ -25,6 +25,7 @@ export default {
 
   methods: {
     toggle(ind) {
+      // 保存点击的索引
       this.current = ind;
     },
   },
