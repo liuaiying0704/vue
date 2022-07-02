@@ -26,13 +26,21 @@
       数组变更方法, 使得原数组改变，会导致v-for更新, 页面更新
       数组非变更方法, 返回新数组, 就不会导致v-for更新, 可采用覆盖数组或this.$set()
       -->
-    <ul>
+    <!-- <ul>
       <li v-for="item in arr" :key="item">{{ item }}</li>
     </ul>
     <button @click="reverse">翻转</button>
     <button @click="slice">截取前3个</button>
     <button @click="change">改变数组的值</button>
-    <button @click="splice">改变数组的值</button>
+    <button @click="splice">改变数组的值</button> -->
+
+    <!-- 4、 vue动态绑定class  v-bind：class‘{类名：布尔值、表达式、变量}’
+    v-bind:class 和 普通的class 是可以共存的
+    v-bind：class‘{类名：变量/能返回true/false}
+  点击按钮，让布尔值取反。 <button @click="isActive = !isActive">按钮</button>
+    -->
+    <!-- <p :class="{ active: isActive }" class="ppp">我是乒乒乓乓</p>
+    <button @click="isActive = !isActive">按钮</button> -->
   </div>
 </template>
 
@@ -40,6 +48,7 @@
 export default {
   data() {
     return {
+      isActive: true,
       // 普通数组
       arr: [1, 2, 3, 4, 5],
       // 数组（对象）
@@ -85,4 +94,11 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.active {
+  color: red;
+}
+.ppp {
+  border: 10px solid #ccc;
+}
+</style>

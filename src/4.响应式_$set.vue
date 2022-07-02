@@ -35,6 +35,7 @@ export default {
 
       // 解决方法2
       // 只要是在这个点击之后 再去修改a的值，可以去发视图的更新
+
       // $set(需要添加属性的目标的对象， 属性， 属性对应具体的值)
       this.$set(this.obj, 'a', 10);
       console.log('===', this.obj);

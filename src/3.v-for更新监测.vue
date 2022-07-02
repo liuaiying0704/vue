@@ -11,6 +11,12 @@
 </template>
 
 <script>
+//  3、v-for 更新监测
+//       目标: 当v-for遍历的目标结构改变, Vue触发v-for的更新
+//       口诀:
+//       数组变更方法, 使得原数组改变，会导致v-for更新, 页面更新
+//       数组非变更方法, 返回新数组, 就不会导致v-for更新, 可采用覆盖数组或this.$set()
+
 export default {
   data() {
     return {
