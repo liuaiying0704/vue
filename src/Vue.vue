@@ -20,19 +20,19 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td></td>
-            <td></td>
+          <tr v-for="item in list" :key="item.id">
+            <td>{{ item.id }}</td>
+            <td>{{ item.name }}</td>
 
             <!-- 如果价格超过100，就有red这个类 -->
-            <td></td>
-            <td></td>
-            <td><a href="#">删除</a></td>
+            <td :class="{ red: item.price > 100 }">{{ item.price }}</td>
+            <td>{{ item.time | formatDate }}</td>
+            <td><a href="#" @click.prevent="delFn(item.id)">删除</a></td>
           </tr>
-          <tr style="background-color: #eee">
+          <tr style="background-color: #eee" v-if="list.length !== 0">
             <td>统计:</td>
-            <td colspan="2">总价钱为:</td>
-            <td colspan="2">平均价:</td>
+            <td colspan="2">总价钱为:{{ allPrice }}</td>
+            <td colspan="2">平均价:{{ averagePrice }}</td>
           </tr>
         </tbody>
 
@@ -62,13 +62,13 @@
               type="text"
               class="form-control"
               placeholder="价格"
-              v-model="price"
+              v-model.number="price"
             />
           </div>
         </div>
         &nbsp;&nbsp;&nbsp;&nbsp;
         <!-- 阻止表单提交 -->
-        <button class="btn btn-primary">添加资产</button>
+        <button class="btn btn-primary" @click.prevent="add">添加资产</button>
       </form>
     </div>
   </div>
@@ -85,6 +85,11 @@
 // 2.给添加资产绑定点击事件
 //// 目标: 处理时间
 // 1. 下载moment模块
+
+// 删除功能
+// 添加功能
+// 总价均价computed
+// 过滤器时间
 import moment from 'moment';
 export default {
   data() {
@@ -95,14 +100,52 @@ export default {
         { id: 102, name: '鞋', price: 25.4, time: new Date('2018-11-22') },
         { id: 103, name: '头发', price: 19900, time: new Date('2020-12-12') },
       ],
+      name: '',
+      price: '',
     };
   },
+  methods: {
+    // 删除案例
+    delFn(id) {
+      let index = this.list.findIndex((ele) => ele.id == id);
+      this.list.splice(index, 1);
+    },
+    // 添加
+    add() {
+      const id = this.list[this.list.length - 1]
+        ? this.list[this.list.length - 1].id + 1
+        : 100;
 
-  // 1\  新增数据==============================
-  // 非空判断,  注意：此处：加trim。v-model.trim="name"
-  // if后面的就不执行
-
-  //2 删除完了，报错。
+      if (this.name == '' || this.price == 0) return alert('please enter');
+      this.list.push({
+        // 解决删除完报错的问题
+        // id: this.list[this.list.length - 1].id + 1,
+        // id:id,
+        id,
+        name: this.name,
+        price: this.price,
+        time: new Date(),
+      });
+      // 添加后清空
+      this.name = '';
+      this.price = 0;
+    },
+  },
+  computed: {
+    allPrice() {
+      return this.list
+        .reduce((sum, next) => (sum += +next.price), 0)
+        .toFixed(2);
+    },
+    averagePrice() {
+      return (this.allPrice / this.list.length).toFixed(2);
+    },
+  },
+  filters: {
+    formatDate(val) {
+      return moment(val).format('YYYY-MM-DD');
+    },
+  },
 };
 </script>
 
