@@ -36,9 +36,6 @@ export default {
     number(val, a) {
       return moment(val).format(a); // 1318874398
     },
-    number1(val, b) {
-      return moment(val).format(b); // 1318874398
-    },
   },
 };
 </script>
