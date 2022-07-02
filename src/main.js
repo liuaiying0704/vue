@@ -7,7 +7,6 @@ Vue.config.productionTip = false;
 Vue.filter('toLowerCase', (val) => {
   return val.toLowerCase();
 });
-
 Vue.filter('toReverse', (val, split) => {
   return val
     .split('')
