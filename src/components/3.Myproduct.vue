@@ -1,0 +1,32 @@
+<template>
+  <div class="my-product">
+    <h3>标题: {{ obj.proname }}</h3>
+    <p>价格: {{ obj.proprice }}元</p>
+    <p>{{ obj.info }}</p>
+  </div>
+</template>
+
+<script>
+export default {
+  //   props: ['obj'],
+  props: {
+    obj: {
+      type: Object,
+      //App.vue中的：：obj=‘item’不传值也可以，子组件return空对象，页面显示默认值。
+      default: () => {
+        return {}; //App.vue中的：：obj=‘item’不传值也可以，子组件return空对象，页面显示默认值。
+      },
+    },
+  },
+};
+</script>
+
+<style>
+.my-product {
+  width: 400px;
+  padding: 20px;
+  border: 2px solid #000;
+  border-radius: 5px;
+  margin: 10px;
+}
+</style>
