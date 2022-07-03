@@ -1,8 +1,8 @@
 <template>
   <div class="todoapp">
     <TodoHeader @send="sendFn"></TodoHeader>
-    <TodoMain :list="list" @del="delFn"></TodoMain>
-    <TodoFooter :count="count"></TodoFooter>
+    <TodoMain :list="showList" @del="delFn"></TodoMain>
+    <TodoFooter :count="count" @filter="filterFn" @clear="clearFn"></TodoFooter>
   </div>
 </template>
 
@@ -13,11 +13,8 @@ import TodoFooter from './components/TodoFooter.vue';
 export default {
   data() {
     return {
-      list: [
-        { id: 100, name: '吃饭', isDone: true },
-        { id: 101, name: '睡觉', isDone: false },
-        { id: 102, name: '打豆豆', isDone: true },
-      ],
+      list: JSON.parse(localStorage.getItem('list')) || [],
+      getSel: 'all',
     };
   },
   components: {
@@ -38,11 +35,35 @@ export default {
     delFn(index) {
       this.list.splice(index, 1);
     },
+    // 4\1
+    filterFn(val) {
+      this.getSel = val;
+    },
+    // 5\
+    clearFn() {
+      this.list.forEach((ele) => (ele.isDone = false));
+    },
   },
   computed: {
     // 3、剩余统计
     count() {
       return this.list.filter((ele) => !ele.isDone).length;
+    },
+    // 4.2
+    showList() {
+      if (this.getSel == 'yes') return this.list.filter((ele) => ele.isDone);
+      if (this.getSel == 'no') return this.list.filter((ele) => !ele.isDone);
+      else {
+        return this.list;
+      }
+    },
+  },
+  watch: {
+    list: {
+      deep: true,
+      handler(val) {
+        localStorage.setItem('list', JSON.stringify(val || []));
+      },
     },
   },
 };

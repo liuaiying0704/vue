@@ -29,7 +29,7 @@
         >
       </li>
     </ul>
-    <button class="clear-completed">清除已完成</button>
+    <button class="clear-completed" @click="clear">清除已完成</button>
   </footer>
 </template>
 
@@ -45,6 +45,12 @@ export default {
   methods: {
     change(val) {
       this.isSel = val;
+      this.$emit('filter', val);
+    },
+    clear() {
+      // 方法一
+      // this.$parent.list.forEach((ele) => (ele.isDone = false));
+      this.$emit('clear');
     },
   },
 };
