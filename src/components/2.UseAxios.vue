@@ -31,6 +31,7 @@ export default {
     return {
       bookObj: {
         // 参数名提前和后台的参数名对上-发送请求就不用再次对接了
+
         bookname: '',
         author: '',
         publisher: '',
