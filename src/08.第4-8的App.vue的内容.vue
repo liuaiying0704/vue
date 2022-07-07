@@ -27,7 +27,15 @@
       </template>
 
       <template v-slot:toux="scope">
-        <img :src="scope.row.headImgUrl" alt="" />
+        <a v-if="scope.row.type == 0" :href="scope.row.headImgUrl">{{
+          scope.row.headImgUrl
+        }}</a>
+        <img
+          v-else-if="scope.row.type == 1"
+          :src="scope.row.headImgUrl"
+          alt=""
+        />
+        <div v-else>{{ scope.row.headImgUrl }}</div>
       </template>
     </UseSlot4>
   </div>
@@ -41,6 +49,7 @@ import UseSlot1 from './05_UseSlot.vue';
 import UseSlot2 from './06_UseSlot.vue';
 
 import UseSlot3 from './07.作用域插槽使用场景.vue';
+
 import UseSlot4 from './08.作用域插槽使用场景.vue';
 
 export default {

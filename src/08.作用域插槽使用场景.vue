@@ -15,7 +15,7 @@
           <td>{{ index + 1 }}</td>
           <td>{{ item.name }}</td>
           <td>
-            <slot name="age" :row="item"></slot>
+            <slot name="age" :row="item">{{ item.age }}</slot>
           </td>
           <td>
             <slot name="toux" :row="item"></slot>
@@ -36,18 +36,21 @@ export default {
           age: 18,
           headImgUrl:
             'http://yun.itheima.com/Upload/./Images/20210303/603f2d2153241.jpg',
+          type: 0,
         },
         {
           name: '小黑同学',
           age: 25,
           headImgUrl:
             'http://yun.itheima.com/Upload/./Images/20210304/6040b101a18ef.jpg',
+          type: 1,
         },
         {
           name: '智慧同学',
           age: 21,
           headImgUrl:
             'http://yun.itheima.com/Upload/./Images/20210302/603e0142e535f.jpg',
+          type: 2,
         },
       ],
     };
