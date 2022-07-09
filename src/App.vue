@@ -52,6 +52,7 @@ export default {
   top: 0;
   display: flex;
   width: 100%;
+
   text-align: center;
   background-color: #333;
   color: #ccc;
