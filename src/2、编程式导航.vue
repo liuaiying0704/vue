@@ -1,9 +1,9 @@
 <template>
   <div>
     <div class="footer_wrap">
-      <router-link to="/find">发现音乐</router-link>
-      <router-link to="/my">我的音乐</router-link>
-      <router-link to="/part?id=1">朋友</router-link>
+      <span @click="btn('/find', 'Find')">发现音乐</span>
+      <span @click="btn('/my', 'My')">我的音乐</span>
+      <span @click="btn('/part', 'Part')">朋友</span>
     </div>
     <div class="top">
       <router-view></router-view>
@@ -56,7 +56,7 @@ export default {
   background-color: #333;
   color: #ccc;
 }
-.footer_wrap a {
+.footer_wrap span {
   flex: 1;
   text-decoration: none;
   padding: 20px 0;
@@ -65,7 +65,7 @@ export default {
   color: #ccc;
   border: 1px solid black;
 }
-.footer_wrap a:hover {
+.footer_wrap span:hover {
   background-color: #555;
 }
 .top {
